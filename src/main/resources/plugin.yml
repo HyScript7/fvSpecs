@@ -1,0 +1,9 @@
+name: fvSpecs
+version: '${version}'
+main: me.hyscript7.fvspecs.FvSpecs
+api-version: '1.19'
+prefix: fvSpecs
+load: STARTUP
+authors: [HyScript7]
+description: A pvp-focused SMP expansion
+website: https://github.com/HyScript7/fvSpecs
