@@ -18,7 +18,7 @@
         {
           "block": "minecraft:air",
           "height": 319
-        },
+        }
       ],
       "structure_overrides": [
         "fvspecs:set_void_well_exit",
