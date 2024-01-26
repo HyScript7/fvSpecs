@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "fvspecs:s_void_well_exit",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:concentric_rings",
+    "salt": 498023653,
+    "frequency_reduction_method": "default",
+    "frequency": 1,
+    "distance": 0,
+    "spread": 0,
+    "count": 1,
+    "preferred_biomes": "minecraft:the_void"
+  }
+}

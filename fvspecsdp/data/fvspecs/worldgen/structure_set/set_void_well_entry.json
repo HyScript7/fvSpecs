@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "fvspecs:s_void_well_entry",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:concentric_rings",
+    "salt": 986392995,
+    "frequency_reduction_method": "default",
+    "frequency": 1,
+    "distance": 100,
+    "spread": 60,
+    "count": 512,
+    "preferred_biomes": "#minecraft:is_overworld"
+  }
+}

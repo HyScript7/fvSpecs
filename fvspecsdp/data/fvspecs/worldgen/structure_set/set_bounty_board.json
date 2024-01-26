@@ -1,0 +1,17 @@
+{
+  "structures": [
+    {
+      "structure": "fvspecs:s_void_bounty_board",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 1121356491,
+    "frequency_reduction_method": "default",
+    "frequency": 0.2,
+    "spacing": 40,
+    "separation": 10,
+    "preferred_biomes": "minecraft:the_void"
+  }
+}
