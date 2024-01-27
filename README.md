@@ -122,9 +122,10 @@ For contributions, make sure you have gradle and Java 17 installed.
 
 ### Installation
 
-1. Download the latest jar from the [Releases page](https://github.com/HyScript7/fvSpecs/releases)
+1. Download the latest plugin jar and datapack zip from the [Releases page](https://github.com/HyScript7/fvSpecs/releases)
 2. Move the jar into your server's plugins folder
-3. Restart your server (do not use /reload or plugman's load command, they break things!)
+3. Move the zip file into your server's world/datapacks folder
+4. Restart your server (do not use /reload or plugman's load command, they break things!)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
