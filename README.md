@@ -85,6 +85,15 @@
 
 FvSpecs is a minecraft plugin with the goal of making pvp on SMP servers more interesting by adding a deathban-like mechanic, magic and special abilities unique to each player. The inspiration comes from BlissSMP's Gems and some of Verdant Moon's mechanics. If you have any suggestions, you can fill out [this form](https://docs.google.com/forms/d/e/1FAIpQLSezhz1kPrp9ZNwt9fvidK_mE6ZbrBTApRHGJHi_aOeXu_xQbw/viewform?usp=sf_link) or make a fork and implement your ideas your self.
 
+Here is an overview of some mechanics:
+
+- Player Stats: Adds LV, Prestige and ExP stats which scale with kills in pvp (or less efficiently pve).
+- Voided by Death: Every player has 10 or so lives. When they die to another player, they may lose a life (depending on the attacker's choice). Once a player reaches 0 lives, they are sent to the void dimension.
+- Bounties: When killing a player, players gain bounty calculated from the level difference between attacker and victim.
+- Void Realm: Players can find naturally generating wells that lead to the Void Dimension, a place void of life, designed to be a nuisance for living beings.
+- Races: Players can spawn with either the default Human race, or a randomly chosen race, which slightly affects how they play minecraft.
+- Specs: The main focus of the plugin - Unique abilities which are assigned to each player when they first join. A player's spec is supposed to be their ultimate weapon, making combat more dangerous when you don't know your opponents ability, and more importantly it's weakness.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
