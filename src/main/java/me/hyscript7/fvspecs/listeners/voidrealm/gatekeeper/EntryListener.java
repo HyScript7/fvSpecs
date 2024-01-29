@@ -127,7 +127,7 @@ public class EntryListener implements Listener {
             public void run() {
                 spawnExitWellStructure(exitWellLocation);
             }
-        }.runTaskLater(this.plugin, 2); // Delayed by 2 ticks
+        }.runTaskLater(this.plugin, 10); // Delayed by 10 ticks in hopes the world loads, since sometimes the chunks load late and we don't place the exit well
     }
 
     private void spawnExitWellStructure(Location l) {
