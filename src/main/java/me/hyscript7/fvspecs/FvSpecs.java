@@ -1,6 +1,7 @@
 package me.hyscript7.fvspecs;
 
 import me.hyscript7.fvspecs.datastore.DatastoreManager;
+import me.hyscript7.fvspecs.listeners.voidrealm.behaviour.AntiBuild;
 import me.hyscript7.fvspecs.listeners.voidrealm.gatekeeper.EntryListener;
 import me.hyscript7.fvspecs.listeners.voidrealm.gatekeeper.ExitListener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,6 +20,7 @@ public final class FvSpecs extends JavaPlugin {
         logger.info("Registering listeners");
         this.getServer().getPluginManager().registerEvents(new EntryListener(this), this);
         this.getServer().getPluginManager().registerEvents(new ExitListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new AntiBuild(this), this);
     }
 
     @Override
