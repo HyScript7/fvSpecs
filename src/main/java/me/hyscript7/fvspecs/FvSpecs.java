@@ -1,7 +1,8 @@
 package me.hyscript7.fvspecs;
 
 import me.hyscript7.fvspecs.datastore.DatastoreManager;
-import me.hyscript7.fvspecs.listeners.VoidRealmPortal;
+import me.hyscript7.fvspecs.listeners.voidrealm.gatekeeper.EntryListener;
+import me.hyscript7.fvspecs.listeners.voidrealm.gatekeeper.ExitListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
@@ -16,7 +17,8 @@ public final class FvSpecs extends JavaPlugin {
         logger.info("Loading datastore manager");
         this.datastoreManager = new DatastoreManager(this);
         logger.info("Registering listeners");
-        this.getServer().getPluginManager().registerEvents(new VoidRealmPortal(this), this);
+        this.getServer().getPluginManager().registerEvents(new EntryListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new ExitListener(this), this);
     }
 
     @Override
