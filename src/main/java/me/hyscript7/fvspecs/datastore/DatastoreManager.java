@@ -31,7 +31,6 @@ public class DatastoreManager {
     }
 
     private void createDatabaseSchema() {
-        /*
         try {
             queryExecutor.executeQuery("CREATE TABLE IF NOT EXISTS player_data (" +
                     "uuid TEXT PRIMARY KEY," +
@@ -45,7 +44,6 @@ public class DatastoreManager {
         } catch (SQLException e) {
             logger.warning("player_data table couldn't be created!");
         }
-        */
     }
 }
 
