@@ -81,13 +81,17 @@ public class EntryListener implements Listener {
         return worldIsTheEnd && false;
     }
 
-    private boolean playerQualifiesForTeleportation(Player p) {
-        double maxHealth;
+    private double getPlayerMaxHealth(Player p) {
         try {
             maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue();
         } catch (NullPointerException ignored) {
             maxHealth = 20.0;
         }
+        return maxHealth;
+    }
+
+    private boolean playerQualifiesForTeleportation(Player p) {
+        double maxHealth = getPlayerMaxHealth(p);
         return !(p.getHealth() < 0.6 * maxHealth);
     }
 
@@ -100,12 +104,7 @@ public class EntryListener implements Listener {
     }
 
     private void healPlayer(Player p) {
-        double maxHealth;
-        try {
-            maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue();
-        } catch (NullPointerException ignored) {
-            maxHealth = 20.0;
-        }
+        double maxHealth = getPlayerMaxHealth(p);
         p.setHealth(maxHealth);
     }
 
