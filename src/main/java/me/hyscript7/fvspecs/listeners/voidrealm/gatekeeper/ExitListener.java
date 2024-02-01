@@ -33,7 +33,7 @@ public class ExitListener implements Listener {
                 setVoidRealm(Bukkit.getWorld("world_fvspecs_voidrealm"));
                 setOverworld(Bukkit.getWorld("world"));
             }
-        }.runTaskLater(this.plugin, 1); // One tick after world loads
+        }.runTaskLater(this.plugin, 1); // Since the plugin is loaded BEFORE the world, we need to wait 'till after world loads to get the worlds
     }
 
     private void setVoidRealm(World w) {
@@ -101,6 +101,7 @@ public class ExitListener implements Listener {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 10));
             }
         }.runTaskLater(this.plugin, ANIMATION_LENGTH-1);
+        // The teleport there is done a little bit before the animation ends, so that the player doesn't fall as the levitation effect expires before they are teleported.
     }
 
     private void playAnimation(Player p, Location l, int animationLength) {
@@ -109,6 +110,6 @@ public class ExitListener implements Listener {
         p.teleport(shrineLocation);
         p.addPotionEffect(PotionEffectType.LEVITATION.createEffect(animationLength, 20));
         p.addPotionEffect(PotionEffectType.BLINDNESS.createEffect(animationLength, 20));
-        p.addPotionEffect(PotionEffectType.GLOWING.createEffect(200+animationLength, 20));
+        p.addPotionEffect(PotionEffectType.GLOWING.createEffect(200+animationLength, 20)); // This glowing effect will persist for the entire duration of the animation AND the duration of the resistance after teleportation.
     }
 }
