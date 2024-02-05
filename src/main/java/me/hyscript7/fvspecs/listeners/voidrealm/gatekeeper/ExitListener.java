@@ -1,5 +1,7 @@
 package me.hyscript7.fvspecs.listeners.voidrealm.gatekeeper;
 
+import me.hyscript7.fvspecs.datastore.DatastoreManager;
+import me.hyscript7.fvspecs.datastore.PlayerStore;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,11 +23,14 @@ import java.util.logging.Logger;
 public class ExitListener implements Listener {
     private final Plugin plugin;
     private final Logger logger;
+    private DatastoreManager datastoreManager;
+    private final int MAX_LIVES = 10;
     private World voidRealm;
     private World overworld;
 
-    public ExitListener(Plugin p) {
+    public ExitListener(Plugin p, DatastoreManager d) {
         this.plugin = p;
+        this.datastoreManager = d;
         this.logger = p.getLogger();
         new BukkitRunnable() {
             @Override
@@ -58,12 +63,20 @@ public class ExitListener implements Listener {
             return;
         }
         // The PlayerInteractEvent is sent separately for each arm (we have 2 arms)
-        // In this case, we only need the interact event is self and we only need it once, so we ignore the other hand.
+        // In this case, we only need the interact event is self, not the items in the hands, so we only need it once, which is why we ignore the other hand.
         if (e.getHand() != EquipmentSlot.HAND) {
             return;
         }
-        // TODO: Check lives (whether the player is a living or a voided)
-        // TODO: Check whether the prestige ritual is active. If so, revive the player and let them leave.
+        PlayerStore playerStore = datastoreManager.getPlayerStore(p);
+        if (playerStore.getPrestigeInProgress() == 1) {
+            playerStore.setPrestigeInProgress(0);
+            playerStore.setLives(MAX_LIVES);
+            sendPlayerToSpawnpoint(p);
+            return;
+        }
+        if (playerStore.getLives() <= 0) {
+            return;
+        }
         sendPlayerToOverworld(p, block.getLocation());
     }
 
@@ -87,6 +100,16 @@ public class ExitListener implements Listener {
             maxHealth = 20.0;
         }
         p.setHealth(maxHealth);
+    }
+
+    private void sendPlayerToSpawnpoint(Player p) {
+        Location spawnpoint = p.getRespawnLocation();
+        if (spawnpoint == null) {
+            sendPlayerToOverworld(p, p.getLocation()); // fallback to default shrine behaviour
+            return;
+        }
+        healPlayer(p);
+        p.teleport(spawnpoint);
     }
 
     private void sendPlayerToOverworld(Player p, Location l) {
