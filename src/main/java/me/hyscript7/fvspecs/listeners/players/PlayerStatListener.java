@@ -68,7 +68,7 @@ public class PlayerStatListener implements Listener {
     private void updatePlayerStats(PlayerStore killerStore, PlayerStore victimStore) {
         // Execute custom stat update operations
         killerStore.setKills(killerStore.getKills() + 1);
-        killerStore.setExp(killerStore.getExp() + calculatePlayerExpDrop(victimStore.getLevel(), victimStore.getBounty(), killerStore.getLevel()));
+        killerStore.setExp(killerStore.getExp() + calculatePlayerExpDrop(victimStore.getLevel()));
         killerStore.setBounty(killerStore.getBounty() + calculateBounty(killerStore.getLevel(), victimStore.getLevel()));
         victimStore.setDeaths(victimStore.getDeaths() + 1);
         victimStore.setLives(victimStore.getLives() - 1);
@@ -112,7 +112,7 @@ public class PlayerStatListener implements Listener {
         return Math.max(l1, l2) - Math.min(l1, l2);
     }
 
-    private int calculatePlayerExpDrop(int victimLevel, int victimBounty, int killerLevel) {
-        return (1 + killerLevel/10) * (victimLevel * 5 + victimBounty / 5);
+    private int calculatePlayerExpDrop(int victimLevel) {
+        return (int) (20 * (1 + victimLevel/10d));
     }
 }
