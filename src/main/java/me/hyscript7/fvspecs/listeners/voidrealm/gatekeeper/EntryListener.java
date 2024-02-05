@@ -75,7 +75,7 @@ public class EntryListener implements Listener {
         }
         e.setCancelled(true); // Stop the event from propagating further
         if (isPrestigeRitual(player)) {
-            // TODO: Modify player stats for the prestige ritual
+            setupPrestigeRitualPlayerStats(player);
             teleportPlayerToVoidRealm(player, false);
             return;
         }
@@ -118,6 +118,15 @@ public class EntryListener implements Listener {
         return !(p.getHealth() < 0.6 * maxHealth);
     }
 
+    private void setupPrestigeRitualPlayerStats(Player p) {
+        PlayerStore playerStore = datastoreManager.getPlayerStore(p);
+        playerStore.setLevel(1);
+        playerStore.setExp(0);
+        playerStore.setLives(0);
+        playerStore.setPrestigeInProgress(1);
+        playerStore.setPrestige(playerStore.getPrestige()+1);
+    }
+
     private int roundCoordinate(int x) {
         return (x - (x % 16)) / 16;
     }
@@ -131,26 +140,41 @@ public class EntryListener implements Listener {
         p.setHealth(maxHealth);
     }
 
-    private void teleportPlayerToVoidRealm(Player p, boolean spawnExitWell) {
+    private Location getPlayerEntryLocation(Player p) {
+        // Get the player's current location, and calculate where to teleport them
         Location playerLocation = p.getLocation();
+        if (playerLocation.getWorld().getName().equals("world_the_end")) {
+            // If we're doing the prestige ritual (entering from the end), multiply the player's coordinates, as they could be very close 0, 0
+            playerLocation.setX(playerLocation.getX()*64);
+            playerLocation.setZ(playerLocation.getZ()*64);
+        }
+        return playerLocation;
+    }
+
+    private void teleportPlayerToVoidRealm(Player p, boolean spawnExitWell) {
+        // Location calculations
+        Location playerLocation = getPlayerEntryLocation(p);
         Location targetLocation = translateStandardLocationToVoidRealmLocation(playerLocation);
-        // Calculate exit well location (deltas are required due to structure block position)
-        Location exitWellLocation = targetLocation.clone();
-        exitWellLocation.setY(1);
-        exitWellLocation.setX(exitWellLocation.getBlockX() - 5);
-        exitWellLocation.setZ(exitWellLocation.getBlockZ() - 5);
+
         // Teleport the player
         p.teleport(targetLocation);
         healPlayer(p);
         p.addPotionEffect(PotionEffectType.DARKNESS.createEffect(120, 1)); // Give the player blindness while they fall
+
+        // Handle exit well spawning
         if (spawnExitWell) {
+            // Calculate exit well location (deltas are required due to structure block position)
+            Location exitWellLocation = targetLocation.clone();
+            exitWellLocation.setY(1);
+            exitWellLocation.setX(exitWellLocation.getBlockX() - 5);
+            exitWellLocation.setZ(exitWellLocation.getBlockZ() - 5);
             // Spawn the exit well after the chunks load
             new BukkitRunnable() {
                 @Override
                 public void run() {
                     spawnExitWellStructure(exitWellLocation);
                 }
-            }.runTaskLater(this.plugin, 21); // Delayed by 21 ticks (1.05 seconds) in hopes the world loads, since sometimes the chunks load late and we don't place the exit well
+            }.runTaskLater(this.plugin, 30); // Delayed by 30 ticks (1.5 seconds) in hopes the world loads, since sometimes the chunks load late and we don't place the exit well
         }
     }
 
