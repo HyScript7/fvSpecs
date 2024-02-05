@@ -72,6 +72,10 @@ public class AntiBuild implements Listener {
     @EventHandler
     public void onBlockPlaceInVoid(BlockPlaceEvent event) {
         Block block = event.getBlock();
+        Block placedOn = event.getBlockAgainst();
+        if (placedOn.getBlockData().getMaterial().equals(Material.WARPED_TRAPDOOR) && block.getBlockData().getMaterial().equals(Material.LADDER)) {
+            return;
+        }
         if (block.getLocation().getWorld().getName().equals(dimensionName)) {
             if (!((materialIsWhitelisted(block) || block.getType().equals(Material.FARMLAND)) && playerIsVoidBound(event.getPlayer()))) {
                 event.setCancelled(true);
