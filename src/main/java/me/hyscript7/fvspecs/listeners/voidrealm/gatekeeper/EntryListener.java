@@ -62,7 +62,7 @@ public class EntryListener implements Listener {
         if (!entityIsPlayer(e)) {
             return;
         }
-        if (!worldQualifiesForTeleportationToLayerOne(e.getEntity().getWorld())) {
+        if (!worldQualifiesForTeleportationToVoidRealm(e.getEntity().getWorld())) {
             return;
         }
         Player player = (Player) e.getEntity();
@@ -74,7 +74,7 @@ public class EntryListener implements Listener {
             // TODO: Do some fancy stuff for the prestige ritual instead of regular tp
             return;
         }
-        teleportPlayerToLayerOne(player);
+        teleportPlayerToVoidRealm(player);
     }
 
     private boolean entityIsPlayer(EntityDamageEvent e) {
@@ -85,7 +85,7 @@ public class EntryListener implements Listener {
         return e.getCause().compareTo(EntityDamageEvent.DamageCause.VOID) == 0;
     }
 
-    private boolean worldQualifiesForTeleportationToLayerOne(World w) {
+    private boolean worldQualifiesForTeleportationToVoidRealm(World w) {
         String worldName = w.getName();
         return worldName.equals("world") || worldName.equals("world_the_end");
     }
@@ -116,7 +116,7 @@ public class EntryListener implements Listener {
         return (x - (x % 16)) / 16;
     }
 
-    private Location translateStandardLocationToLayerOneLocation(Location l) {
+    private Location translateStandardLocationToVoidRealmLocation(Location l) {
         return new Location(voidRealm, roundCoordinate(l.getBlockX()), 320, roundCoordinate(l.getBlockZ()), l.getYaw(), l.getPitch());
     }
 
@@ -125,9 +125,9 @@ public class EntryListener implements Listener {
         p.setHealth(maxHealth);
     }
 
-    private void teleportPlayerToLayerOne(Player p) {
+    private void teleportPlayerToVoidRealm(Player p) {
         Location playerLocation = p.getLocation();
-        Location targetLocation = translateStandardLocationToLayerOneLocation(playerLocation);
+        Location targetLocation = translateStandardLocationToVoidRealmLocation(playerLocation);
         // Calculate exit well location (deltas are required due to structure block position)
         Location exitWellLocation = targetLocation.clone();
         exitWellLocation.setY(1);
