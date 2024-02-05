@@ -79,11 +79,17 @@ public class PlayerStore {
     }
 
     public void setLives(int lives) {
+        if (lives < 0) {
+            lives = 0;
+        }
         this.lives = lives;
         setDataKeyValue("lives", this.lives);
     }
 
     public void setBounty(int bounty) {
+        if (bounty < 0) {
+            bounty = 0;
+        }
         this.bounty = bounty;
         setDataKeyValue("bounty", this.bounty);
     }
