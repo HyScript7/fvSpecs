@@ -1,5 +1,6 @@
 package me.hyscript7.fvspecs;
 
+import lombok.Getter;
 import me.hyscript7.fvspecs.datastore.DatastoreManager;
 import me.hyscript7.fvspecs.listeners.voidrealm.behaviour.AntiBuild;
 import me.hyscript7.fvspecs.listeners.voidrealm.gatekeeper.EntryListener;
@@ -9,11 +10,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.logging.Logger;
 
 public final class FvSpecs extends JavaPlugin {
-    private Logger logger = this.getLogger();
+    private final Logger logger = this.getLogger();
+    @Getter
+    private DatastoreManager datastoreManager;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
+        this.datastoreManager = new DatastoreManager(this);
         this.getServer().getPluginManager().registerEvents(new EntryListener(this), this);
         this.getServer().getPluginManager().registerEvents(new ExitListener(this), this);
         this.getServer().getPluginManager().registerEvents(new AntiBuild(this), this);
