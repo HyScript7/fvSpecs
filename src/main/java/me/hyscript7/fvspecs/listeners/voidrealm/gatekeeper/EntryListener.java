@@ -82,6 +82,7 @@ public class EntryListener implements Listener {
     }
 
     private double getPlayerMaxHealth(Player p) {
+        double maxHealth;
         try {
             maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue();
         } catch (NullPointerException ignored) {
