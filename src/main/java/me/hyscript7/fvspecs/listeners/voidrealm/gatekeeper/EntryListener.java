@@ -36,6 +36,22 @@ public class EntryListener implements Listener {
     }
 
     @EventHandler
+    public void onFallDamage(EntityDamageEvent e) {
+        if (e.isCancelled()) {
+            return;
+        }
+        if (!e.getEntityType().equals(EntityType.PLAYER)) {
+            return;
+        }
+        if (!e.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
+            return;
+        }
+        if (e.getEntity().getWorld().equals(voidRealm)) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
     public void onPlayerDamage(EntityDamageEvent e) {
         if (e.isCancelled()) {
             return;
@@ -127,7 +143,7 @@ public class EntryListener implements Listener {
             public void run() {
                 spawnExitWellStructure(exitWellLocation);
             }
-        }.runTaskLater(this.plugin, 10); // Delayed by 10 ticks in hopes the world loads, since sometimes the chunks load late and we don't place the exit well
+        }.runTaskLater(this.plugin, 20); // Delayed by 20 ticks in hopes the world loads, since sometimes the chunks load late and we don't place the exit well
     }
 
     private void spawnExitWellStructure(Location l) {
