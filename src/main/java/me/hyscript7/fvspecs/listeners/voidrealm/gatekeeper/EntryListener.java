@@ -1,5 +1,7 @@
 package me.hyscript7.fvspecs.listeners.voidrealm.gatekeeper;
 
+import me.hyscript7.fvspecs.datastore.DatastoreManager;
+import me.hyscript7.fvspecs.datastore.PlayerStore;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -18,10 +20,12 @@ import java.util.logging.Logger;
 public class EntryListener implements Listener {
     private final Plugin plugin;
     private final Logger logger;
+    private DatastoreManager datastoreManager;
     private World voidRealm;
 
-    public EntryListener(Plugin p) {
+    public EntryListener(Plugin p, DatastoreManager d) {
         this.plugin = p;
+        this.datastoreManager = d;
         this.logger = p.getLogger();
         new BukkitRunnable() {
             @Override
@@ -71,10 +75,11 @@ public class EntryListener implements Listener {
         }
         e.setCancelled(true); // Stop the event from propagating further
         if (isPrestigeRitual(player)) {
-            // TODO: Do some fancy stuff for the prestige ritual instead of regular tp
+            // TODO: Modify player stats for the prestige ritual
+            teleportPlayerToVoidRealm(player, false);
             return;
         }
-        teleportPlayerToVoidRealm(player);
+        teleportPlayerToVoidRealm(player, true);
     }
 
     private boolean entityIsPlayer(EntityDamageEvent e) {
@@ -92,9 +97,10 @@ public class EntryListener implements Listener {
 
     private boolean isPrestigeRitual(Player p) {
         World w = p.getWorld();
-        boolean worldIsTheEnd = w.getName().compareTo("world_the_end") == 0;
-        // TODO: Implement player level check instead of constant false
-        return worldIsTheEnd && false;
+        boolean worldIsTheEnd = w.getName().equals("world_the_end");
+        PlayerStore playerStore = datastoreManager.getPlayerStore(p);
+        boolean playerIsMaxLevel = playerStore.getLevel() == 50;
+        return worldIsTheEnd && playerIsMaxLevel;
     }
 
     private double getPlayerMaxHealth(Player p) {
@@ -125,7 +131,7 @@ public class EntryListener implements Listener {
         p.setHealth(maxHealth);
     }
 
-    private void teleportPlayerToVoidRealm(Player p) {
+    private void teleportPlayerToVoidRealm(Player p, boolean spawnExitWell) {
         Location playerLocation = p.getLocation();
         Location targetLocation = translateStandardLocationToVoidRealmLocation(playerLocation);
         // Calculate exit well location (deltas are required due to structure block position)
@@ -137,13 +143,15 @@ public class EntryListener implements Listener {
         p.teleport(targetLocation);
         healPlayer(p);
         p.addPotionEffect(PotionEffectType.DARKNESS.createEffect(120, 1)); // Give the player blindness while they fall
-        // Spawn the exit well after the chunks load
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                spawnExitWellStructure(exitWellLocation);
-            }
-        }.runTaskLater(this.plugin, 20); // Delayed by 20 ticks in hopes the world loads, since sometimes the chunks load late and we don't place the exit well
+        if (spawnExitWell) {
+            // Spawn the exit well after the chunks load
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    spawnExitWellStructure(exitWellLocation);
+                }
+            }.runTaskLater(this.plugin, 21); // Delayed by 21 ticks (1.05 seconds) in hopes the world loads, since sometimes the chunks load late and we don't place the exit well
+        }
     }
 
     private void spawnExitWellStructure(Location l) {

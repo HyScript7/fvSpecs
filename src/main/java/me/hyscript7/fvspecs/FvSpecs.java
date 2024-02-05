@@ -20,7 +20,7 @@ public final class FvSpecs extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         this.datastoreManager = new DatastoreManager(this);
-        this.getServer().getPluginManager().registerEvents(new EntryListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new EntryListener(this, datastoreManager), this);
         this.getServer().getPluginManager().registerEvents(new ExitListener(this), this);
         this.getServer().getPluginManager().registerEvents(new AntiBuild(this), this);
         this.getServer().getPluginManager().registerEvents(new PlayerDataInitializer(this, datastoreManager), this);
