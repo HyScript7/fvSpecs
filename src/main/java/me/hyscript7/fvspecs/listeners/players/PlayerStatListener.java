@@ -2,9 +2,15 @@ package me.hyscript7.fvspecs.listeners.players;
 
 import me.hyscript7.fvspecs.datastore.DatastoreManager;
 import me.hyscript7.fvspecs.datastore.PlayerStore;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.plugin.Plugin;
 
@@ -20,6 +26,27 @@ public class PlayerStatListener implements Listener {
         this.plugin = p;
         this.datastoreManager = d;
         this.logger = p.getLogger();
+    }
+
+    @EventHandler
+    public void onEntityDeath(EntityDeathEvent e) {
+        Player player = e.getEntity().getKiller();
+        if (player == null) {
+            return;
+        }
+        Entity victim = e.getEntity();
+        if (!(victim instanceof Mob)) {
+            return;
+        }
+        AttributeInstance maxHealthAttribute = ((Mob) victim).getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        double maxHealth;
+        if (maxHealthAttribute == null) {
+            maxHealth = 20;
+        } else {
+            maxHealth = maxHealthAttribute.getBaseValue();
+        }
+        PlayerStore playerStore = datastoreManager.getPlayerStore(player);
+        playerStore.setExp(playerStore.getExp() + (int) maxHealth/2);
     }
 
     @EventHandler
