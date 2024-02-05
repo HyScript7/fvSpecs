@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -37,6 +38,15 @@ public class EntryListener implements Listener {
 
     private void setVoidRealm(World w) {
         voidRealm = w;
+    }
+
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent e) {
+        Player player = e.getPlayer();
+        PlayerStore playerStore = datastoreManager.getPlayerStore(player);
+        if (playerStore.getLives() <= 0) {
+            teleportPlayerToVoidRealm(player, false);
+        }
     }
 
     @EventHandler
