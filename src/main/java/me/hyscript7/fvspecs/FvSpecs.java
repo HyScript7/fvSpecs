@@ -3,6 +3,7 @@ package me.hyscript7.fvspecs;
 import lombok.Getter;
 import me.hyscript7.fvspecs.datastore.DatastoreManager;
 import me.hyscript7.fvspecs.listeners.players.PlayerDataInitializer;
+import me.hyscript7.fvspecs.listeners.players.PlayerStatListener;
 import me.hyscript7.fvspecs.listeners.voidrealm.behaviour.AntiBuild;
 import me.hyscript7.fvspecs.listeners.voidrealm.gatekeeper.EntryListener;
 import me.hyscript7.fvspecs.listeners.voidrealm.gatekeeper.ExitListener;
@@ -23,6 +24,7 @@ public final class FvSpecs extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new ExitListener(this), this);
         this.getServer().getPluginManager().registerEvents(new AntiBuild(this), this);
         this.getServer().getPluginManager().registerEvents(new PlayerDataInitializer(this, datastoreManager), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerStatListener(this, datastoreManager), this);
     }
 
     @Override
