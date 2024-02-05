@@ -18,6 +18,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
     compileOnly "io.papermc.paper:paper-api:1.19.2-R0.1-SNAPSHOT"
 }
 
