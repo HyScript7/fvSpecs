@@ -154,15 +154,15 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Void Realm
+- [x] Void Realm
   - [ ] Castle Structure
-  - [ ] Bounty Board Structure
-- [ ] Player Statistics
-  - [ ] Prestige
-- [ ] Lives System
-  - [ ] Reviving voided players
+  - [x] Bounty Board Structure
+- [x] Player Statistics
+  - [x] Prestige
+- [x] Lives System
+  - [x] Reviving voided players
   - [ ] Live reobtainement ritual (Quest)
-- [ ] Bounties
+- [x] Bounties
   - [ ] Bounty hunting (Quest)
   - [ ] Turn-in system
 - [ ] Innate Names
