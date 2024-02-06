@@ -52,7 +52,7 @@ public class ResurrectionListener implements Listener {
         if (playerStore.getLives() > 0) {
             return;
         }
-        e.getItem().remove();
+        player.getInventory().remove(e.getItem().getItemStack());
         playerStore.setLives(10);
         Location animationLocation = player.getLocation();
         // TODO: Get player's spawnpoint instead
