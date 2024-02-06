@@ -55,10 +55,8 @@ public class ResurrectionListener implements Listener {
         e.getItem().remove();
         playerStore.setLives(10);
         Location animationLocation = player.getLocation();
-        Location respawnLocation = player.getRespawnLocation();
-        if (respawnLocation == null) {
-            respawnLocation = Objects.requireNonNull(Bukkit.getWorld("world")).getSpawnLocation();
-        }
+        // TODO: Get player's spawnpoint instead
+        Location respawnLocation = Objects.requireNonNull(Bukkit.getWorld("world")).getSpawnLocation();
         playAnimation(animationLocation);
         player.teleport(respawnLocation);
     }

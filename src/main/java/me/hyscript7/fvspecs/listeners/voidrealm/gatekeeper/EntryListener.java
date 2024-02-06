@@ -1,5 +1,6 @@
 package me.hyscript7.fvspecs.listeners.voidrealm.gatekeeper;
 
+import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
 import me.hyscript7.fvspecs.datastore.DatastoreManager;
 import me.hyscript7.fvspecs.datastore.PlayerStore;
 import org.bukkit.Bukkit;
@@ -41,10 +42,12 @@ public class EntryListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerRespawn(PlayerRespawnEvent e) {
+    public void onPlayerRespawn(PlayerPostRespawnEvent e) {
         Player player = e.getPlayer();
+        logger.info(player.getName() + " has respawned!");
         PlayerStore playerStore = datastoreManager.getPlayerStore(player);
         if (playerStore.getLives() <= 0) {
+            logger.info(player.getName() + " will be voided!");
             teleportPlayerToVoidRealm(player, false);
         }
     }

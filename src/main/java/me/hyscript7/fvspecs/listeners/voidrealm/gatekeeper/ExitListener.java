@@ -18,6 +18,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Objects;
 import java.util.logging.Logger;
 
 public class ExitListener implements Listener {
@@ -103,11 +104,14 @@ public class ExitListener implements Listener {
     }
 
     private void sendPlayerToSpawnpoint(Player p) {
+        /*
         Location spawnpoint = p.getRespawnLocation();
         if (spawnpoint == null) {
             sendPlayerToOverworld(p, p.getLocation()); // fallback to default shrine behaviour
             return;
         }
+         */
+        Location spawnpoint = overworld.getSpawnLocation();
         healPlayer(p);
         p.teleport(spawnpoint);
     }
