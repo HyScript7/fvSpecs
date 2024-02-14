@@ -14,7 +14,7 @@ public class PlayerStore {
     private final Plugin plugin;
     private final PersistentDataContainer dataContainer;
     private final int MAX_LIVES = 10;
-    private final Map<String, Integer> defaultData = Map.of("level", 1, "prestige", 0, "exp", 0, "lives", MAX_LIVES, "bounty", 0, "kills", 0, "deaths", 0, "prestigeprogress", 0);
+    private final Map<String, Integer> defaultData = Map.of("level", 1, "prestige", 0, "exp", 0, "lives", MAX_LIVES, "bounty", 0, "kills", 0, "deaths", 0, "prip", 0);
 
     // Player stats
     @Getter
@@ -50,7 +50,7 @@ public class PlayerStore {
         bounty = getDataKeyValue("bounty");
         kills = getDataKeyValue("kills");
         deaths = getDataKeyValue("deaths");
-        prestigeInProgress = getDataKeyValue("prestigeprogress");
+        prestigeInProgress = getDataKeyValue("prip");
     }
 
     private int getDataKeyValue(String key) {
@@ -109,6 +109,6 @@ public class PlayerStore {
 
     public void setPrestigeInProgress(int prestigeInProgress) {
         this.prestigeInProgress = prestigeInProgress;
-        setDataKeyValue("prestigeprogress", this.prestigeInProgress);
+        setDataKeyValue("prip", this.prestigeInProgress);
     }
 }
