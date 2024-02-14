@@ -7,14 +7,29 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerStore {
     // Internals
     private final Plugin plugin;
     private final PersistentDataContainer dataContainer;
-    private final int MAX_LIVES = 10;
-    private final Map<String, Integer> defaultData = Map.of("level", 1, "prestige", 0, "exp", 0, "lives", MAX_LIVES, "bounty", 0, "kills", 0, "deaths", 0, "prip", 0);
+    private static final int MAX_LIVES = 10;
+    private final Map<String, Integer> defaultData = getDefaultPlayerData();
+
+    public static Map<String, Integer> getDefaultPlayerData() {
+        Map<String, Integer> defaultData = new HashMap<>();
+        defaultData.put("level", 1);
+        defaultData.put("prestige", 0);
+        defaultData.put("exp", 0);
+        defaultData.put("lives", MAX_LIVES);
+        defaultData.put("bounty", 0);
+        defaultData.put("kills", 0);
+        defaultData.put("deaths", 0);
+        defaultData.put("prip", 0);
+        defaultData.put("race", -1);
+        return defaultData;
+    }
 
     // Player stats
     @Getter
@@ -31,6 +46,8 @@ public class PlayerStore {
     private int kills;
     @Getter
     private int deaths;
+    @Getter
+    private int race;
     @Getter
     private int prestigeInProgress;
 
@@ -50,6 +67,7 @@ public class PlayerStore {
         bounty = getDataKeyValue("bounty");
         kills = getDataKeyValue("kills");
         deaths = getDataKeyValue("deaths");
+        race = getDataKeyValue("race");
         prestigeInProgress = getDataKeyValue("prip");
     }
 
@@ -105,6 +123,11 @@ public class PlayerStore {
     public void setDeaths(int deaths) {
         this.deaths = deaths;
         setDataKeyValue("deaths", this.deaths);
+    }
+
+    public void setRace(int race) {
+        this.race = race;
+        setDataKeyValue("race", this.race);
     }
 
     public void setPrestigeInProgress(int prestigeInProgress) {
