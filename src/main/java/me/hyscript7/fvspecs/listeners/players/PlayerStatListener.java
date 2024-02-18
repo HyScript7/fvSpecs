@@ -4,7 +4,6 @@ import me.hyscript7.fvspecs.datastore.DatastoreManager;
 import me.hyscript7.fvspecs.datastore.PlayerStore;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -46,7 +45,7 @@ public class PlayerStatListener implements Listener {
             maxHealth = maxHealthAttribute.getBaseValue();
         }
         PlayerStore playerStore = datastoreManager.getPlayerStore(player);
-        playerStore.setExp(playerStore.getExp() + (int) maxHealth/2);
+        playerStore.setExp((playerStore.getExp() + (int) maxHealth));
     }
 
     @EventHandler
@@ -94,8 +93,8 @@ public class PlayerStatListener implements Listener {
     }
 
     private int calculateLevelExP(int level) {
-        // Magic formula for how much ExP is required for the specified level
-        return (level - 1) * 150 * (level - 2) / 2 + 1;
+        // Base is 100 and then 50 more for each level
+        return 100 + (level - 1) * 50;
     }
 
     private int calculateBounty(int killerLevel, int victimLevel) {
