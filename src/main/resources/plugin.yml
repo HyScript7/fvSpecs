@@ -7,3 +7,14 @@ load: STARTUP
 authors: [HyScript7]
 description: A pvp-focused SMP expansion
 website: https://github.com/HyScript7/fvSpecs
+permissions:
+  fvspecs.command.stats:
+    description: "Allows the user to view their own stats"
+    default: false
+commands:
+  stats:
+    description: "Shows the player's stats"
+    usage: "/stats [player]"
+    aliases: []
+    permission: fvspecs.command.stats
+    permission-message: "You do not have permission to use this command"
