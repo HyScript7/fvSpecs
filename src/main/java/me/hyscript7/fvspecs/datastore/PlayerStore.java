@@ -14,7 +14,7 @@ public class PlayerStore {
     // Internals
     private final Plugin plugin;
     private final PersistentDataContainer dataContainer;
-    private static final int MAX_LIVES = 10;
+    public static final int MAX_LIVES = 10;
     private final Map<String, Integer> defaultData = getDefaultPlayerData();
 
     public static Map<String, Integer> getDefaultPlayerData() {

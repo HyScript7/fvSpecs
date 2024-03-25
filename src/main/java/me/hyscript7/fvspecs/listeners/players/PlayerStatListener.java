@@ -1,5 +1,6 @@
 package me.hyscript7.fvspecs.listeners.players;
 
+import me.hyscript7.fvspecs.ExperienceFlyweight;
 import me.hyscript7.fvspecs.datastore.DatastoreManager;
 import me.hyscript7.fvspecs.datastore.PlayerStore;
 import org.bukkit.attribute.Attribute;
@@ -79,7 +80,7 @@ public class PlayerStatListener implements Listener {
      * @param playerStore: The store wrapper of the player to check level ups for
      */
     private void checkLevelUpdates(PlayerStore playerStore) {
-        int expNext = calculateLevelExP(playerStore.getLevel() + 1);
+        int expNext = ExperienceFlyweight.calculateLevelExP(playerStore.getLevel() + 1);
         do {
             if (playerStore.getLevel() >= MAX_LEVEL) {
                 return;
@@ -88,13 +89,8 @@ public class PlayerStatListener implements Listener {
                 playerStore.setLevel(playerStore.getLevel() + 1);
                 playerStore.setExp(playerStore.getExp() - expNext);
             }
-            expNext = calculateLevelExP(playerStore.getLevel() + 1);
+            expNext = ExperienceFlyweight.calculateLevelExP(playerStore.getLevel() + 1);
         } while (playerStore.getExp() >= expNext);
-    }
-
-    private int calculateLevelExP(int level) {
-        // Magic formula for how much ExP is required for the specified level
-        return (level - 1) * 150 * (level - 2) / 2 + 1;
     }
 
     private int calculateBounty(int killerLevel, int victimLevel) {
